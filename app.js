@@ -1,6 +1,7 @@
 const express = require('express');
 const routes = require('./routes/index');
 
+
 // Setting up main app configuration
 const host = 'localhost';
 const port = 5000;

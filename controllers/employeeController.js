@@ -1,17 +1,22 @@
-const EmployeeService = require('../services/employeeService')
+const EmployeeService = require('../services/employeeService');
 
 
 class EmployeeController {
     get(req, resp) {
         if (req.params.id) {
-            const employee = EmployeeService.get(req.params.id);
-            if (employee) {
-                return resp.status(200).send({ data: employee });
+            const employeeId = parseInt(req.params.id, 10);
+            if (!employeeId) {
+                return resp.status(500).send({ message: `Employee id should be a integer! given: ${req.params.id}` });
             } else {
-                return resp.status(500).send({ message: `Employee with id=${req.params.id} not found` });
+                const employee = EmployeeService.getById(employeeId);
+                if (employee) {
+                    return resp.status(200).send({ data: employee });
+                } else {
+                    return resp.status(500).send({ message: `Employee with id=${employeeId} not found` });
+                }
             }
         } else {
-            const employees = EmployeeService.get(req.params.id);
+            const employees = EmployeeService.get();
             if (employees) {
                 return resp.status(200).send({ data: employees });
             } else {

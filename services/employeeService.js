@@ -1,22 +1,33 @@
 const db = require('./database');
 
 class EmployeeService {
-    get() {
-        return db.get('employees');
+    getById(employeeId) {
+        const res = db
+            .get('employees')
+            .find({ id: employeeId })
+            .write();
+        return res;
     };
 
+    get() {
+        const res = db.get('employees').write();
+        return res;
+    }
+
     create(employeeData) {
-        return db
+        const res = db
             .get('employees')
             .add(employeeData)
             .write();
+        return res;
     };
 
     delete(employeeId) {
-        return db
+        const res = db
             .get('employees')
             .remove({ id: employeeId })
             .write();
+        return res;
     };
 };
 

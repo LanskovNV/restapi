@@ -4,10 +4,10 @@ const EmployeeController = require('../controllers/employeeController');
 
 
 router
-    .route('/:id')
-    .get(EmployeeController.getEmployee)
-    .delete(EmployeeController.deleteEmployee);
-router.get('/all', EmployeeController.getEmployees);
-router.post('/create', EmployeeController.postEmployee);
+    .route('/person/:id')
+    .get(EmployeeController.get)
+    .delete(EmployeeController.delete);
+router.get('/all', EmployeeController.get);
+router.post('/create', EmployeeController.post);
 
 module.exports = router;
