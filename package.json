@@ -4,7 +4,8 @@
   "description": "simple express rest api",
   "main": "app.js",
   "scripts": {
-    "test": "xo"
+    "test": "xo",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
