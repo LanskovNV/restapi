@@ -1,0 +1,27 @@
+{
+  "name": "restapi",
+  "version": "0.1.0",
+  "description": "simple express rest api",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LanskovNV/restapi.git"
+  },
+  "keywords": [
+    "rest",
+    "express",
+    "api"
+  ],
+  "author": "leins275",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LanskovNV/restapi/issues"
+  },
+  "homepage": "https://github.com/LanskovNV/restapi#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
