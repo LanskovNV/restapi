@@ -7,7 +7,7 @@ class EmployeeService {
             .find({ id: employeeId })
             .write();
         return res;
-    };
+    }
 
     get() {
         const res = db.get('employees').write();
@@ -20,7 +20,7 @@ class EmployeeService {
             .add(employeeData)
             .write();
         return res;
-    };
+    }
 
     delete(employeeId) {
         const res = db
@@ -28,7 +28,7 @@ class EmployeeService {
             .remove({ id: employeeId })
             .write();
         return res;
-    };
-};
+    }
+}
 
 module.exports = new EmployeeService();
