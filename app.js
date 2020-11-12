@@ -1,13 +1,7 @@
 const express = require('express');
 const routes = require('./routes');
+const { host, port, baseUrl } = require('./utils/config');
 
-
-// Setting up main app configuration
-const host = 'localhost';
-const port = 5000;
-const baseUrl = '/api';
-
-// Configuring express application
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

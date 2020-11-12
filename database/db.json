@@ -2,7 +2,7 @@
   "employees": [
     {
       "id": 0,
-      "name": "Valery",
+      "name": "Nikita",
       "surname": "Lanskov",
       "birthday_date": "23.07.1998",
       "position": "Software Engineer",
@@ -15,14 +15,6 @@
       "birthday_date": "03.03.1995",
       "position": "Software Engineer",
       "salary": "22"
-    },
-    {
-      "id": 2,
-      "name": "Svetlana",
-      "surname": "Varsh",
-      "birthday_date": "26.05.1998",
-      "position": "test",
-      "salary": "228"
     }
   ]
 }
