@@ -4,16 +4,16 @@ const EmployeeController = require('../controllers/employee-controller');
 
 
 router
-    .route('/:employeeId')
+    .route('/:id')
     .get(EmployeeController.getById)
-    // .put(EmployeeController.update)
+    .put(EmployeeController.update)
     .delete(EmployeeController.delete)
     
 
 router
     .route('/')
-    .get(EmployeeController.getById)
-    .post(EmployeeController.post);
+    .get(EmployeeController.get)
+    .post(EmployeeController.create);
 
 
 module.exports = router;

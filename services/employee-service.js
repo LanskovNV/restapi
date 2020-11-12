@@ -14,10 +14,19 @@ class EmployeeService {
         return res;
     }
 
+    update(employeeId, employeeData) {
+        const res = db
+            .get('employees')
+            .find({ id: employeeId })
+            .assign(employeeData)
+            .write();
+        return res;
+    }
+
     create(employeeData) {
         const res = db
             .get('employees')
-            .add(employeeData)
+            .push(employeeData)
             .write();
         return res;
     }

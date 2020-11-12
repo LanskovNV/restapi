@@ -9,6 +9,8 @@ const baseUrl = '/api';
 
 // Configuring express application
 const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(baseUrl, routes);
 app.listen(port, host, () => {
     console.log(`Server listens http://${host}:${port}`);

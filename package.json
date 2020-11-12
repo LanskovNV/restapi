@@ -24,6 +24,7 @@
   "homepage": "https://github.com/LanskovNV/restapi#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "http-status-codes": "^2.1.4",
     "lowdb": "^1.0.0"
   },
   "devDependencies": {
