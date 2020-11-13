@@ -51,5 +51,5 @@ module.exports = {
     get,
     update,
     create,
-    del,
-}
+    del
+};

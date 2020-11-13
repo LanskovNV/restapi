@@ -8,7 +8,7 @@ async function createConnection() {
 
 async function getCollection(collection) {
     const db = await createConnection();
-    return await db.get(collection).write();
+    return db.get(collection).write();
 }
 
 async function getItem(collection, id) {
@@ -48,5 +48,5 @@ module.exports = {
     getItem,
     updateItem,
     addItem,
-    deleteItem,
+    deleteItem
 };

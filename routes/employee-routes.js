@@ -6,7 +6,7 @@ router
     .route('/:id')
     .get(EmployeeController.getById)
     .put(EmployeeController.update)
-    .delete(EmployeeController.del)
+    .delete(EmployeeController.del);
 
 router
     .route('/')

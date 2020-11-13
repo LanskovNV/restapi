@@ -4,7 +4,7 @@
   "description": "simple express rest api",
   "main": "app.js",
   "scripts": {
-    "test": "xo",
+    "lint": "xo",
     "start": "nodemon app.js"
   },
   "repository": {

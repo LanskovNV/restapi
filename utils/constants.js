@@ -1,3 +1,3 @@
 module.exports = {
-    employeeCollection: 'employees',
-}
+    employeeCollection: 'employees'
+};

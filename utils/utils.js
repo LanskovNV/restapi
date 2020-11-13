@@ -4,9 +4,10 @@ function specifyService(service, collection) {
     for (const [name, method] of Object.entries(service)) {
         newService[name] = (...others) => method(collection, ...others);
     }
+
     return newService;
 }
 
 module.exports = {
-    specifyService,
-}
+    specifyService
+};
