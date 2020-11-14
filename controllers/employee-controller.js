@@ -14,13 +14,20 @@ function getById(req, res) {
 }
 
 function get(req, res) {
-    Service.getCollection()
+    const filters = { ...req.query };
+    delete filters.page_num;
+
+    Service.getCollection(filters, req.query.page_num || 1)
         .then(data => res.status(StatusCodes.OK).send(data))
         .catch(() => res.json(Boom.notFound(employeeMsg.NO_COLLECTION)));
 }
 
 function create(req, res) {
-    Service.addItem(req.body)
+    const item = {
+        ...req.body,
+        salary: Number.parseInt(req.body.salary, 10),
+    };
+    Service.addItem(item)
         .then(data => res.status(StatusCodes.OK).send(data))
         .catch(error => res.json(Boom.internal(error)));
 }

@@ -12,9 +12,17 @@ async function createConnection(entity) {
     return low(adapter);
 }
 
-async function getCollection(collection) {
+async function getCollection(collection, filters, page_num) {
     const db = await createConnection('employees');
-    return db.get(collection).write();
+    const page_size = 5;
+    const start = (page_num - 1) * page_size;
+    const end = start + page_size;
+    return db
+        .get(collection)
+        .filter(filters)
+        .sortBy('salary')
+        .slice(start, end)
+        .write();
 }
 
 async function getItem(collection, id, errorMsg) {

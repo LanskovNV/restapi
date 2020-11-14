@@ -13,7 +13,7 @@ router
 
 router
     .route('/')
-    .get(EmployeeController.get)
+    .get(getValidator(employeeSchemas.get), EmployeeController.get)
     .post(getValidator(employeeSchemas.post), EmployeeController.create);
 
 module.exports = router;
