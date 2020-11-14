@@ -8,12 +8,12 @@ const router = express.Router();
 router
     .route('/:id')
     .get(getValidator(employeeSchemas.getById), EmployeeController.getById)
-    .put(EmployeeController.update)
-    .delete(EmployeeController.del);
+    .put(getValidator(employeeSchemas.put), EmployeeController.update)
+    .delete(getValidator(employeeSchemas.delete), EmployeeController.del);
 
 router
     .route('/')
     .get(EmployeeController.get)
-    .post(EmployeeController.create);
+    .post(getValidator(employeeSchemas.post), EmployeeController.create);
 
 module.exports = router;
