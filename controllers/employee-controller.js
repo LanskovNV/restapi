@@ -34,9 +34,6 @@ function update(req, res) {
 
 function del(req, res) {
     const employeeId = Number.parseInt(req.params.id, 10);
-    if (!employeeId && employeeId !== 0) {
-        return res.json(Boom.badRequest(employeeMsg.BAD_ID(req.params.id)));
-    }
 
     Service.deleteItem(employeeId)
         .then(data => res.status(StatusCodes.OK).send(data))
