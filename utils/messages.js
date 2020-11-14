@@ -8,7 +8,12 @@ const routerMsg = {
     BAD_REQ: 'Invalid request'
 };
 
+const validatorMsg = {
+    BAD_PARAMS: 'Error: request parameters validation failed'
+};
+
 module.exports = {
     employeeMsg,
-    routerMsg
+    routerMsg,
+    validatorMsg
 };

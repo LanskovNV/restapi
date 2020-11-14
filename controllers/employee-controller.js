@@ -7,13 +7,10 @@ const Service = specifyService(require('../services/lowdb-service'), employeeCol
 
 function getById(req, res) {
     const employeeId = Number.parseInt(req.params.id, 10);
-    if (!employeeId && employeeId !== 0) {
-        return res.json(Boom.badRequest(employeeMsg.BAD_ID(req.params.id)));
-    }
 
-    Service.getItem(employeeId)
+    Service.getItem(employeeId, employeeMsg.NOT_FOUND(employeeId))
         .then(data => res.status(StatusCodes.OK).send(data))
-        .catch(() => res.json(Boom.notFound(employeeMsg.NOT_FOUND(employeeId))));
+        .catch(error => res.json(error));
 }
 
 function get(req, res) {

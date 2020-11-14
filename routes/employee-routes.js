@@ -1,10 +1,13 @@
 const express = require('express');
-const router = express.Router();
 const EmployeeController = require('../controllers/employee-controller');
+const getValidator = require('../middlewares/validator');
+const { employeeSchemas } = require('../utils/schemas');
+
+const router = express.Router();
 
 router
     .route('/:id')
-    .get(EmployeeController.getById)
+    .get(getValidator(employeeSchemas.getById), EmployeeController.getById)
     .put(EmployeeController.update)
     .delete(EmployeeController.del);
 

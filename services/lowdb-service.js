@@ -1,5 +1,6 @@
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
+const Boom = require('boom');
 
 async function createConnection() {
     const adapter = new FileSync('./database/db.json');
@@ -11,11 +12,15 @@ async function getCollection(collection) {
     return db.get(collection).write();
 }
 
-async function getItem(collection, id) {
+async function getItem(collection, id, errorMsg) {
     const db = await createConnection();
-    return db.get(collection)
+    const item = db.get(collection)
         .find({ id })
         .write();
+    if (!item) {
+        throw Boom.notFound(errorMsg);
+    }
+    return item;
 }
 
 async function updateItem(collection, id, data) {
