@@ -3,51 +3,44 @@ const StatusCodes = require('http-status-codes');
 const { authMsg } = require('../utils/messages');
 const { generate, decode } = require('../utils/jwt-token');
 const { entities, authTokenTypes } = require('../utils/constants');
-const { specifyService, handleRequests } = require('../utils/utils');
+const { specifyService } = require('../utils/utils');
 const UsersService = specifyService(require('../services/lowdb-service'), entities.users);
-const TokensService = specifyService(require('../services/lowdb-service'), entities.tokens);
 
 function get(req, res) {
-    const payload = req.body;
-    const { username, password } = decode(payload.refreshToken, authTokenTypes.refresh);
+    const payload = { ...req.body, time: Date.now() };
 
-    TokensService.getItem({token: payload.refreshToken}, authMsg.INVALID_TOKEN)
-        .then(() => {
-            if (username === payload.username && password.toString() === payload.password) {
+    UsersService.getItem({username: payload.username}, authMsg.INVALID_TOKEN)
+        .then(user => {
+            const { username, password } = decode(user.token, authTokenTypes.auth);
+            if (username === payload.username && password === payload.password) {
                 const token = generate(payload, authTokenTypes.auth);
-                const refreshToken = generate(payload, authTokenTypes.refresh);
-
-                const cb = () => res.status(StatusCodes.OK).send({ token, refreshToken });
+                const cb = () => res.status(StatusCodes.OK).send({ token });
                 const errCb = error => res.json(error);
-                const requests = [
-                    () => UsersService.updateItem({ username: payload.username }, { token }),
-                    () => TokensService.updateItem({ token: payload.refreshToken }, { token: refreshToken }),
-                ];
-                handleRequests(requests, cb, errCb);
+
+                UsersService.updateItem({ username: payload.username }, { token })
+                    .then(cb)
+                    .catch(errCb);
             } else {
                 res.json(Boom.badData(authMsg.BAD_CREDITS));
             }
         })
-        .catch(error => res.json(error))
+        .catch(error => res.json(error));
 }
 
 function create(req, res) {
     const payload = { username: req.body.username, password: req.body.password, time: Date.now() };
     const token = generate(payload, authTokenTypes.auth);
-    const refreshToken = generate(payload, authTokenTypes.refresh);
     const newUser = {
         ...req.body,
         token
     };
     delete newUser.password;
 
-    const cb = () => res.status(StatusCodes.OK).send({ ...newUser, refreshToken });
+    const cb = () => res.status(StatusCodes.OK).send(newUser);
     const errCb = error => res.json(Boom.internal(error));
-    const requests = [
-        () => UsersService.addItem(newUser),
-        () => TokensService.addItem({ token: refreshToken }),
-    ];
-    handleRequests(requests, cb, errCb);
+    UsersService.addItem(newUser)
+        .then(cb)
+        .catch(errCb);
 }
 
 module.exports = {

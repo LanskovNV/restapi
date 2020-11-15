@@ -4,7 +4,7 @@ const { Strategy } = require('passport-http-bearer');
 const routes = require('../routes');
 const { verify } = require('../utils/jwt-token');
 
-passport.use('bearer', new Strategy(verify));
+passport.use('bearerAuth', new Strategy(verify));
 
 const app = express();
 

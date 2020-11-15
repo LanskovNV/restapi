@@ -1,12 +1,10 @@
 const entities = {
     employees: 'employees',
-    users: 'users',
-    tokens: 'tokens'
+    users: 'users'
 };
 
 const authTokenTypes = {
-    auth: 'auth',
-    refresh: 'refresh'
+    auth: 'auth'
 }
 
 module.exports = {

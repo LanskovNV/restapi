@@ -1,7 +1,7 @@
 const express = require('express');
-const passport =  require('passport');
 const EmployeeController = require('../controllers/employee-controller');
 const getValidator = require('../middlewares/validator');
+const getAuthMiddleware = require('../middlewares/auth');
 const { employeeSchemas } = require('../utils/schemas');
 
 const router = express.Router();
@@ -9,12 +9,12 @@ const router = express.Router();
 router
     .route('/:id')
     .get(getValidator(employeeSchemas.getById), EmployeeController.getById)
-    .put(passport.authenticate('bearer', { session: false }), getValidator(employeeSchemas.put), EmployeeController.update)
-    .delete(passport.authenticate('bearer', { session: false }), getValidator(employeeSchemas.delete), EmployeeController.del);
+    .put(getAuthMiddleware('bearerAuth'), getValidator(employeeSchemas.put), EmployeeController.update)
+    .delete(getAuthMiddleware('bearerAuth'), getValidator(employeeSchemas.delete), EmployeeController.del);
 
 router
     .route('/')
     .get(getValidator(employeeSchemas.get), EmployeeController.get)
-    .post(passport.authenticate('bearer', { session: false }), getValidator(employeeSchemas.post), EmployeeController.create);
+    .post(getAuthMiddleware('bearerAuth'), getValidator(employeeSchemas.post), EmployeeController.create);
 
 module.exports = router;
