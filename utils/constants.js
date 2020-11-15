@@ -1,14 +1,15 @@
-const collections = {
-    employees: 'employees',
-    users: 'users'
-};
-
 const entities = {
     employees: 'employees',
-    auth: 'auth'
+    users: 'users',
+    tokens: 'tokens'
 };
 
+const authTokenTypes = {
+    auth: 'auth',
+    refresh: 'refresh'
+}
+
 module.exports = {
-    collections,
-    entities
+    entities,
+    authTokenTypes
 };

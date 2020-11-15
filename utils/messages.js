@@ -7,7 +7,8 @@ const employeeMsg = {
 
 const authMsg = {
     NOT_FOUND: id => `User with id=${id} not found`,
-    INVALID_TOKEN: `token is invalid, get new one`
+    INVALID_TOKEN: `Token is invalid, get new one`,
+    BAD_CREDITS: `Login or password is incorrect, please try again`
 }
 
 const routerMsg = {

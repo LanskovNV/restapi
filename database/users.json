@@ -1,0 +1,9 @@
+{
+  "users": [
+    {
+      "id": "2b7c2afc-8955-4061-86b9-ab00159196e4",
+      "username": "leins275",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlaW5zMjc1IiwicGFzc3dvcmQiOiIxMjMiLCJyZWZyZXNoVG9rZW4iOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKMWMyVnlibUZ0WlNJNklteGxhVzV6TWpjMUlpd2ljR0Z6YzNkdmNtUWlPaUl4TWpNaUxDSjBhVzFsSWpveE5qQTFORFl3TlRBMU1EZ3dMQ0pwWVhRaU9qRTJNRFUwTmpBMU1EVjkuNTFRcld2S3VJaUd0WVYzU0RaUUhyREVTNFQxRW41emFKaHU5ckhlcmIydyIsImlhdCI6MTYwNTQ2MDYyOCwiZXhwIjoxNjA1NDYwOTI4fQ.kOb8jGNwrRRMaqZFPNK5981Q---FgpIQMVfGm_pSMIM"
+    }
+  ]
+}

@@ -8,6 +8,12 @@ function specifyService(service, entity) {
     return newService;
 }
 
+function handleRequests(requests, cb, errCb) {
+    Promise.all(requests.map(request => request()))
+        .then(cb)
+        .catch(errCb);
+}
+
 function cmp(item, filter) {
     switch (filter.key) {
         case 'name':
@@ -36,5 +42,6 @@ function filterItem(filters) {
 }
 
 module.exports = {
-    specifyService
+    specifyService,
+    handleRequests
 };

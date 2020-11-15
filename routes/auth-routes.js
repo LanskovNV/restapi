@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.route('/')
     .post(getValidator(authSchemas.post), AuthController.create)
-    .get(getValidator(authSchemas.get), AuthController.update);
+    .get(getValidator(authSchemas.get), AuthController.get);
 
 module.exports = router;
