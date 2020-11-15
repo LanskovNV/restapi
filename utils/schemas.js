@@ -10,6 +10,14 @@ const baseReqSchema = (params={}, query={}, body={}, headers={}) => ({
     }
 });
 
+const authGet = () => {
+    return baseReqSchema();
+};
+
+const authPost = () => {
+    return baseReqSchema();
+};
+
 const employeeGetById = () => {
     const params = {
         "description": "url params",
@@ -145,11 +153,15 @@ const employeePost = () => {
 };
 
 module.exports = {
-    employeeSchemas : {
+    employeeSchemas: {
         getById: employeeGetById(),
         delete: employeeGetById(),
         get: employeeGet(),
         put: employeePut(),
         post: employeePost()
+    },
+    authSchemas: {
+        post: authPost(),
+        get: authGet()
     }
 }

@@ -1,4 +1,5 @@
 const express = require('express');
+const passport =  require('passport');
 const EmployeeController = require('../controllers/employee-controller');
 const getValidator = require('../middlewares/validator');
 const { employeeSchemas } = require('../utils/schemas');
@@ -13,7 +14,7 @@ router
 
 router
     .route('/')
-    .get(getValidator(employeeSchemas.get), EmployeeController.get)
+    .get(passport.authenticate('bearer', { session: false }), getValidator(employeeSchemas.get), EmployeeController.get)
     .post(getValidator(employeeSchemas.post), EmployeeController.create);
 
 module.exports = router;

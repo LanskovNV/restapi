@@ -1,3 +1,14 @@
+const collections = {
+    employees: 'employees',
+    users: 'users'
+};
+
+const entities = {
+    employees: 'employees',
+    auth: 'auth'
+};
+
 module.exports = {
-    employeeCollection: 'employees'
+    collections,
+    entities
 };

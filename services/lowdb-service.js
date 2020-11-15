@@ -12,8 +12,8 @@ async function createConnection(entity) {
     return low(adapter);
 }
 
-async function getCollection(collection, filters, page_num) {
-    const db = await createConnection('employees');
+async function getCollection(entity, collection, filters, page_num) {
+    const db = await createConnection(entity);
     const page_size = 5;
     const start = (page_num - 1) * page_size;
     const end = start + page_size;
@@ -25,10 +25,10 @@ async function getCollection(collection, filters, page_num) {
         .write();
 }
 
-async function getItem(collection, id, errorMsg) {
-    const db = await createConnection('employees');
+async function getItem(entity, collection, id, errorMsg) {
+    const db = await createConnection(entity);
     const item = db.get(collection)
-        .find({ id })
+        .find(id)
         .write();
     if (!item) {
         throw Boom.notFound(errorMsg);
@@ -36,8 +36,8 @@ async function getItem(collection, id, errorMsg) {
     return item;
 }
 
-async function updateItem(collection, id, data) {
-    const db = await createConnection('employees');
+async function updateItem(entity, collection, id, data) {
+    const db = await createConnection(entity);
     return db
         .get(collection)
         .find({ id })
@@ -45,9 +45,9 @@ async function updateItem(collection, id, data) {
         .write();
 }
 
-async function addItem(collection, data) {
+async function addItem(entity, collection, data) {
     const { last_id } = await getNewId();
-    const db = await createConnection('employees');
+    const db = await createConnection(entity);
 
     return db
         .get(collection)
@@ -55,8 +55,8 @@ async function addItem(collection, data) {
         .write();
 }
 
-async function deleteItem(collection, id) {
-    const db = await createConnection('employees');
+async function deleteItem(entity, collection, id) {
+    const db = await createConnection(entity);
     return db
         .get(collection)
         .remove({ id })

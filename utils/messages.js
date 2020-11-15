@@ -5,6 +5,11 @@ const employeeMsg = {
     DB_ID_ERR: "Can not get new user id from db"
 };
 
+const authMsg = {
+    NOT_FOUND: id => `User with id=${id} not found`,
+    INVALID_TOKEN: `token is invalid, get new one`
+}
+
 const routerMsg = {
     BAD_REQ: 'Invalid request'
 };
@@ -16,5 +21,6 @@ const validatorMsg = {
 module.exports = {
     employeeMsg,
     routerMsg,
-    validatorMsg
+    validatorMsg,
+    authMsg
 };

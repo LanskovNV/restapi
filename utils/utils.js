@@ -1,8 +1,8 @@
-function specifyService(service, collection) {
+function specifyService(service, entity) {
     const newService = {};
 
     for (const [name, method] of Object.entries(service)) {
-        newService[name] = (...others) => method(collection, ...others);
+        newService[name] = (...others) => method(entity, ...others);
     }
 
     return newService;
