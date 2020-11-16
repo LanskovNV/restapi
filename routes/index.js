@@ -3,7 +3,7 @@ const Boom = require('boom');
 const { routerMsg } = require('../utils/messages');
 const employeeRoutes = require('./employee-routes');
 const authRoutes = require('./auth-routes');
-const swaggerRoutes = require('./swagger');
+const swaggerRoutes = require('./swagger-routes');
 
 const router = express.Router();
 
