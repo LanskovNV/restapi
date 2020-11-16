@@ -6,9 +6,15 @@ function getAuthMiddleware(strategyName) {
     const options = { session: false };
 
     return (req, res, next) => {
-        passport.authenticate(strategyName, options,function(err, user) {
-            if (err) { return next(err); }
-            if (!user) { return res.json(Boom.unauthorized(authMsg.INVALID_TOKEN)); }
+        passport.authenticate(strategyName, options, (err, user) => {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                return res.json(Boom.unauthorized(authMsg.INVALID_TOKEN));
+            }
+
             next();
         })(req, res, next);
     };

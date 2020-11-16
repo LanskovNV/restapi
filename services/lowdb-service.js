@@ -8,11 +8,11 @@ async function createConnection(entity) {
     return low(adapter);
 }
 
-async function getCollection(entity, filters, page_num) {
+async function getCollection(entity, filters, pageNum) {
     const db = await createConnection(entity);
-    const page_size = 5;
-    const start = (page_num - 1) * page_size;
-    const end = start + page_size;
+    const pageSize = 5;
+    const start = (pageNum - 1) * pageSize;
+    const end = start + pageSize;
     return db
         .get(entity)
         .filter(filters)
@@ -29,6 +29,7 @@ async function getItem(entity, id, errorMsg) {
     if (!item) {
         throw Boom.notFound(errorMsg);
     }
+
     return item;
 }
 

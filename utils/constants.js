@@ -5,7 +5,7 @@ const entities = {
 
 const authTokenTypes = {
     auth: 'auth'
-}
+};
 
 module.exports = {
     entities,

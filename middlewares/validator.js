@@ -12,6 +12,7 @@ function getValidator(schema) {
         if (!valid) {
             return res.json(Boom.badRequest(validatorMsg.BAD_PARAMS, validate.errors));
         }
+
         next();
     };
 }
