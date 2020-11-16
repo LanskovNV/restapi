@@ -1,9 +1,15 @@
 {
   "users": [
     {
-      "id": "810f0b15-d01f-47fa-b084-b1ec1f72ba91",
+      "id": "ba544f08-ca86-49ed-84dd-4c7efc4bee2d",
       "username": "leins275",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlaW5zMjc1IiwicGFzc3dvcmQiOiIxMjMiLCJ0aW1lIjoxNjA1NDc0ODQ4MDYyLCJpYXQiOjE2MDU0NzQ4NDgsImV4cCI6MTYwNTQ3NTE0OH0.h4MRrfEmjKORaRbGsm89mtusPP_aGcYRYZMiZhBDexE"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxlaW5zMjc1IiwicGFzc3dvcmQiOiIxMjM0NTY3OCIsInRpbWUiOjE2MDU1MjA5MTk1MTgsImlhdCI6MTYwNTUyMDkxOSwiZXhwIjoxNjA1NTIxMjE5fQ.jKe3GZsk-aiWZh05kSA8mHbYkNQk_s0EhZvsNMd18QQ"
+    },
+    {
+      "id": "b1ad5a2e-031a-4b89-9b09-5cd0fbc654d1",
+      "username": "olek",
+      "email": "kek_olek@bk.ru",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9sZWsiLCJwYXNzd29yZCI6IjEyMzQ1Njc4IiwidGltZSI6MTYwNTUyMTA0MDc1MywiaWF0IjoxNjA1NTIxMDQwLCJleHAiOjE2MDU1MjEzNDB9.oU7IjWhk18lOQUQfIgR2abLP2N54qmNa2kMFw6J6WNU"
     }
   ]
 }

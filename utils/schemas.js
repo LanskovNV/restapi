@@ -1,21 +1,47 @@
-const baseReqSchema = (params={}, query={}, body={}, headers={}) => ({
+const baseReqSchema = properties => ({
     "title": "req",
     "description": "expressjs request object",
     "type": "object",
-    "properties": {
-        params,
-        query,
-        body,
-        headers
-    }
+    "properties": properties
 });
 
 const authGet = () => {
-    return baseReqSchema();
+    const body = {
+        "description": "body params",
+        "type": "object",
+        "properties": {
+            "username": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 40,
+            },
+            "password": {
+                "type": "string",
+                "minLength": 8,
+            }
+        },
+        "additionalProperties": false
+    };
+    return baseReqSchema({ body });
 };
 
 const authPost = () => {
-    return baseReqSchema();
+    const body = {
+        "description": "body params",
+        "type": "object",
+        "properties": {
+            "username": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 40,
+            },
+            "password": {
+                "type": "string",
+                "minLength": 8,
+            }
+        }
+    };
+    return baseReqSchema({ body });
 };
 
 const employeeGetById = () => {
@@ -33,7 +59,7 @@ const employeeGetById = () => {
         "required": ["id"]
     };
 
-    return baseReqSchema(params);
+    return baseReqSchema({ params });
 };
 
 const employeeGet = () => {
@@ -61,7 +87,7 @@ const employeeGet = () => {
         },
         "additionalProperties": false
     };
-    return baseReqSchema({}, query);
+    return baseReqSchema({ query });
 };
 const employeePut = () => {
     const params = {
@@ -111,7 +137,7 @@ const employeePut = () => {
         },
         "additionalProperties": false
     };
-    return baseReqSchema(params, {}, body);
+    return baseReqSchema({ params, body });
 };
 const employeePost = () => {
     const body = {
@@ -149,7 +175,7 @@ const employeePost = () => {
         "additionalProperties": false,
         "required": ["name", "surname", "birthday_date", "position", "salary"]
     };
-    return baseReqSchema({}, {}, body);
+    return baseReqSchema({ body });
 };
 
 module.exports = {
