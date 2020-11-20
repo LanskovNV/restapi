@@ -31,6 +31,72 @@
     "application/json"
   ],
   "paths": {
+    "/employees": {
+      "post": {
+        "tags": [
+          "Employees"
+        ],
+        "description": "Create new employees",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New employee is created",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Employees"
+        ],
+        "description": "Create new employees",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name filter",
+            "type": "string"
+          },
+          {
+            "name": "surname",
+            "in": "query",
+            "description": "Surname filter",
+            "type": "string"
+          },
+          {
+            "name": "page_num",
+            "in": "query",
+            "description": "Number of page to return",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Emplo",
+            "schema": {
+              "$ref": "#/definitions/Employees"
+            }
+          }
+        }
+      }
+    },
     "/addUser": {
       "post": {
         "tags": [
@@ -127,6 +193,45 @@
     }
   },
   "definitions": {
+    "EmployeeGet": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "surname": {
+          "type": "string"
+        },
+        "page_num": {
+          "type": "string"
+        }
+      }
+    },
+    "Employee": {
+      "required": [
+        "name",
+        "surname",
+        "birthday_date",
+        "position",
+        "salary"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "surname": {
+          "type": "string"
+        },
+        "birthday_date": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "salary": {
+          "type": "string"
+        }
+      }
+    },
     "User": {
       "required": [
         "name",
@@ -209,7 +314,10 @@
     "Users": {
       "type": "array",
       "$ref": "#/definitions/User"
+    },
+    "Employees": {
+      "type": "array",
+      "$ref": "#/definitions/Employee"
     }
-
   }
 }
