@@ -1,323 +1,318 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
-    "version": "1.0.0", 
-    "title": "restapi",
-    "description": "Simple crud restapi with bearer authorization",
+    "title": "Restapi",
+    "description": "Simple restapi application",
+    "contact": {
+      "name": "API Support",
+      "email": "leins275@gmail.com"
+    },
     "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
-    }
+      "name": "MIT"
+    },
+    "version": "1.0.0"
   },
-  "host": "localhost:5000",
-  "basePath": "/api/v1",
+  "servers": [
+    {
+      "url": "http://localhost:5000/api/v1",
+      "description": "default local server"
+    }
+  ],
   "tags": [
     {
-      "name": "Employees",
-      "description": "API for employees"
+      "name": "Auth",
+      "description": "Authorization requests"
     },
     {
-      "name": "Auth",
-      "description": "API for authorization"
+      "name": "Employees",
+      "description": "Employees requests"
     }
   ],
-  "schemes": [
-    "http"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "Entity not found."
+      }
+    },
+    "schemas": {
+      "Employee":{
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "surname": {
+            "type": "string",
+            "required": true
+          },
+          "birthday_date": {
+            "type": "string",
+            "required": true
+          },
+          "position": {
+            "type": "string",
+            "required": true
+          },
+          "salary": {
+            "type": "integer",
+            "required": true
+          }
+        }
+      },
+      "AuthToken": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthCredentials": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+      "AuthTokenUsername": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "required": true
+          },
+          "token": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  },
   "paths": {
-    "/employees": {
-      "post": {
-        "tags": [
-          "Employees"
-        ],
-        "description": "Create new employees",
+    "/auth": {
+      "get": {
+        "description": "Get new token for authorized users",
+        "tags": ["Auth"],
         "parameters": [
           {
-            "name": "user",
-            "in": "body",
-            "description": "User that we want to create",
-            "schema": {
-              "$ref": "#/definitions/Employee"
-            }
+            "name": "username",
+            "in": "query",
+            "required": true
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "New employee is created",
-            "schema": {
-              "$ref": "#/definitions/Employee"
+            "description": "New token (expires in 5 minutes)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthToken"
+                }
+              }
             }
           }
         }
       },
+      "post": {
+        "description": "Create new user and generate new token",
+        "tags": ["Auth"],
+        "requestBody": {
+          "description": "User credentials",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthCredentials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New token (expires in 5 minutes)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokenUsername"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employees": {
       "get": {
-        "tags": [
-          "Employees"
-        ],
-        "description": "Create new employees",
+        "description": "Get paginated employees",
+        "tags": ["Employees"],
         "parameters": [
           {
             "name": "name",
-            "in": "query",
-            "description": "Name filter",
-            "type": "string"
+            "in": "query"
           },
           {
             "name": "surname",
-            "in": "query",
-            "description": "Surname filter",
-            "type": "string"
+            "in": "query"
           },
           {
             "name": "page_num",
-            "in": "query",
-            "description": "Number of page to return",
-            "type": "string"
+            "in": "query"
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "Emplo",
-            "schema": {
-              "$ref": "#/definitions/Employees"
+            "description": "Successfully got paginated employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Get paginated employees",
+        "tags": ["Employees"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "New employee data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Employee"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully got paginated employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
             }
           }
         }
       }
     },
-    "/addUser": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "description": "Create new user in system",
+    "/employees/{id}": {
+      "get": {
+        "description": "Get employee by id",
+        "tags": ["Employees"],
         "parameters": [
           {
-            "name": "user",
-            "in": "body",
-            "description": "User that we want to create",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+            "name": "id",
+            "in": "path",
+            "required": true
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "New user is created",
-            "schema": {
-              "$ref": "#/definitions/User"
+            "description": "Successfully got employee",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
             }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
-      }
-    },
-    "/users": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Get all users in system",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Users"
-            }
-          }
-        }
-      }
-    },
-    "/user/{id}": {
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "description": "ID of user that we want to find",
-          "type": "integer"
-        }
-      ],
+      },
       "delete": {
-        "summary": "Delete user with given ID",
-        "tags": [
-          "Users"
+        "description": "Get employee by id",
+        "tags": ["Employees"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
         ],
         "responses": {
           "200": {
-            "description": "User is deleted",
-            "schema": {
-              "$ref": "#/definitions/User"
+            "description": "Employee has successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
             }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       },
       "put": {
-        "summary": "Update user with give ID",
-        "tags": [
-          "Users"
+        "description": "Get employee by id",
+        "tags": ["Employees"],
+        "security": [
+          {
+            "Bearer": []
+          }
         ],
         "parameters": [
           {
-            "name": "user",
-            "in": "body",
-            "description": "User with new values of properties",
-            "schema": {
-              "$ref": "#/definitions/updateUser"
-            }
+            "name": "id",
+            "in": "path",
+            "required": true
           }
         ],
+        "requestBody": {
+          "description": "New user parameters",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Employee"
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
-            "description": "User is updated",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        }
-      }
-    }
-  },
-  "definitions": {
-    "EmployeeGet": {
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "surname": {
-          "type": "string"
-        },
-        "page_num": {
-          "type": "string"
-        }
-      }
-    },
-    "Employee": {
-      "required": [
-        "name",
-        "surname",
-        "birthday_date",
-        "position",
-        "salary"
-      ],
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "surname": {
-          "type": "string"
-        },
-        "birthday_date": {
-          "type": "string"
-        },
-        "position": {
-          "type": "string"
-        },
-        "salary": {
-          "type": "string"
-        }
-      }
-    },
-    "User": {
-      "required": [
-        "name",
-        "_id",
-        "companies"
-      ],
-      "properties": {
-        "_id": {
-          "type": "integer",
-          "uniqueItems": true
-        },
-        "isPublic": {
-          "type": "boolean"
-        },
-        "name": {
-          "type": "string"
-        },
-        "books": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "amount": {
-                "type": "number"
-              }
-            }
-          }
-
-        },
-        "companies": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
 
         }
-
       }
-    },
-    "updateUser": {
-      "required": [
-        "name",
-        "companies"
-      ],
-      "properties": {
-        "isPublic": {
-          "type": "boolean"
-        },
-        "name": {
-          "type": "string"
-        },
-        "books": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "amount": {
-                "type": "number"
-              }
-            }
-          }
-
-        },
-        "companies": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-
-        }
-
-      }
-    },
-    "Users": {
-      "type": "array",
-      "$ref": "#/definitions/User"
-    },
-    "Employees": {
-      "type": "array",
-      "$ref": "#/definitions/Employee"
     }
   }
 }

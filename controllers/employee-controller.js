@@ -28,7 +28,7 @@ function get(req, res) {
 function create(req, res) {
   const item = {
     ...req.body,
-    salary: Number.parseInt(req.body.salary, 10),
+    salary: req.body.salary,
   };
   Service.addItem(item)
     .then((data) => res.status(StatusCodes.OK).send(data))

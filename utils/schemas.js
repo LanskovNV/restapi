@@ -6,8 +6,8 @@ const baseReqSchema = (properties) => ({
 });
 
 const authGet = () => {
-  const body = {
-    description: 'body params',
+  const query = {
+    description: 'query params',
     type: 'object',
     properties: {
       username: {
@@ -20,9 +20,10 @@ const authGet = () => {
         minLength: 8,
       },
     },
+    required: ['username', 'password'],
     additionalProperties: false,
   };
-  return baseReqSchema({ body });
+  return baseReqSchema({ query });
 };
 
 const authPost = () => {
@@ -132,8 +133,8 @@ const employeePut = () => {
       },
       salary: {
         description: 'employee current position',
-        type: 'string',
-        pattern: '(?<=\\s|^)\\d+(?=\\s|$)',
+        type: 'integer',
+        // pattern: '(?<=\\s|^)\\d+(?=\\s|$)',
       },
     },
     additionalProperties: false,
@@ -170,8 +171,9 @@ const employeePost = () => {
       },
       salary: {
         description: 'employee current position',
-        type: 'string',
-        pattern: '(?<=\\s|^)\\d+(?=\\s|$)',
+        type: 'integer',
+        // type: 'string',
+        // pattern: '(?<=\\s|^)\\d+(?=\\s|$)',
       },
     },
     additionalProperties: false,
