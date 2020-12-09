@@ -2,6 +2,7 @@ const low = require('lowdb');
 const { v4: uuid } = require('uuid');
 const FileAsync = require('lowdb/adapters/FileAsync');
 const Boom = require('boom');
+const { serviceMsg } = require('../utils/messages');
 
 async function createConnection(entity) {
   const adapter = new FileAsync(`./database/${entity}.json`);
@@ -13,12 +14,12 @@ async function getCollection(entity, filters, pageNum) {
   const pageSize = 5;
   const start = (pageNum - 1) * pageSize;
   const end = start + pageSize;
-  return db
-    .get(entity)
-    .filter(filters)
-    .sortBy('salary')
-    .slice(start, end)
-    .write();
+
+  const items = db.get(entity);
+  if (!items) {
+    throw Boom.notFound(serviceMsg.NOT_FOUND);
+  }
+  return items.filter(filters).sortBy('salary').slice(start, end).write();
 }
 
 async function getItem(entity, id, errorMsg) {
@@ -33,22 +34,33 @@ async function getItem(entity, id, errorMsg) {
 
 async function updateItem(entity, id, data) {
   const db = await createConnection(entity);
-  return db.get(entity).find(id).assign(data).write();
+  const item = db.get(entity);
+  if (!item) {
+    throw Boom.notFound(serviceMsg.NOT_FOUND);
+  }
+
+  return item.find(id).assign(data).write();
 }
 
 async function addItem(entity, data) {
   const id = await uuid();
   const db = await createConnection(entity);
+  const items = db.get(entity);
+  if (!items) {
+    throw Boom.notFound(serviceMsg.NOT_FOUND);
+  }
 
-  return db
-    .get(entity)
-    .push({ id, ...data })
-    .write();
+  return items.push({ id, ...data }).write();
 }
 
 async function deleteItem(entity, id) {
   const db = await createConnection(entity);
-  return db.get(entity).remove(id).write();
+  const items = db.get(entity);
+  if (!items) {
+    throw Boom.notFound(serviceMsg.NOT_FOUND);
+  }
+
+  return items.remove(id).write();
 }
 
 module.exports = {

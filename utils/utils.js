@@ -1,13 +1,13 @@
 function specifyService(service, entity) {
-    const newService = {};
+  const newService = {};
 
-    for (const [name, method] of Object.entries(service)) {
-        newService[name] = (...others) => method(entity, ...others);
-    }
+  for (const [name, method] of Object.entries(service)) {
+    newService[name] = (...others) => method(entity, ...others);
+  }
 
-    return newService;
+  return newService;
 }
 
 module.exports = {
-    specifyService
+  specifyService,
 };
