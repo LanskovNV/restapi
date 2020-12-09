@@ -1,0 +1,9 @@
+.idea
+.git
+.gitignore
+.eslintrc.js
+.prettierrc
+db_dump
+Dockerfile
+README.md
+node_modules
