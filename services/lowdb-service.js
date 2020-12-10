@@ -3,6 +3,7 @@ const { v4: uuid } = require('uuid');
 const FileAsync = require('lowdb/adapters/FileAsync');
 const Boom = require('boom');
 const { serviceMsg } = require('../utils/messages');
+const { pageSize } = require('../utils/constants');
 
 async function createConnection(entity) {
   const adapter = new FileAsync(`./database/${entity}.json`);
@@ -11,7 +12,6 @@ async function createConnection(entity) {
 
 async function getCollection(entity, filters, pageNum) {
   const db = await createConnection(entity);
-  const pageSize = 5;
   const start = (pageNum - 1) * pageSize;
   const end = start + pageSize;
 

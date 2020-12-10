@@ -1,13 +1,16 @@
 const entities = {
-    employees: 'employees',
-    users: 'users'
+  employees: 'employees',
+  users: 'users',
 };
 
 const authTokenTypes = {
-    auth: 'auth'
+  auth: 'auth',
 };
 
+const pageSize = 5;
+
 module.exports = {
-    entities,
-    authTokenTypes
+  entities,
+  authTokenTypes,
+  pageSize,
 };
