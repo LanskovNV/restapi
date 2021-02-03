@@ -1,7 +1,7 @@
 .idea
 .git
 .gitignore
-.eslintrc.js
+.eslintrc
 .prettierrc
 db_dump
 Dockerfile
