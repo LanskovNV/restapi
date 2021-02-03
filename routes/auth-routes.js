@@ -5,7 +5,8 @@ const { authSchemas } = require('../utils/schemas');
 
 const router = express.Router();
 
-router.route('/')
+router
+    .route('/')
     .post(getValidator(authSchemas.post), AuthController.create)
     .get(getValidator(authSchemas.get), AuthController.get);
 

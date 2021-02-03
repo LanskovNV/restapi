@@ -10,7 +10,9 @@ function getValidator(schema) {
     return (req, res, next) => {
         const valid = validate(req);
         if (!valid) {
-            return res.json(Boom.badRequest(validatorMsg.BAD_PARAMS, validate.errors));
+            return res.json(
+                Boom.badRequest(validatorMsg.BAD_PARAMS, validate.errors),
+            );
         }
 
         next();
