@@ -13,4 +13,10 @@ npm run start
 
 ## Deploy
 
-`TODO: fix docker build`
+To deploy with docker, do the following:
+
+1. clone repo
+2. run 
+```shell
+./run.sh
+```

@@ -8,5 +8,5 @@ docker build -t $name .
 docker run -d \
     --restart=unless-stopped \
     --name $name \
-    -p 5001:8080 \
+    -p 5001:5000 \
     $name
