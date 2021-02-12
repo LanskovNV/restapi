@@ -1,7 +1,8 @@
 # restapi
-Simple rest api 
 
-## Run project
+## Simple CRUD rest api with jwt bearer authorisation
+
+# Run
 
 To run the project, open terminal at location you want, and do the following:
 ```bash
@@ -20,3 +21,7 @@ To deploy with docker, do the following:
 ```shell
 ./run.sh
 ```
+
+# Documentation
+
+Api documentation available [here](https://crud.leins275.xyz/api/v1/swagger/)
