@@ -60,6 +60,7 @@ async function deleteItem(entity, id) {
         throw Boom.notFound(serviceMsg.NOT_FOUND);
     }
     
+    console.log(id)
     return items.remove({ id }).write();
 }
 
