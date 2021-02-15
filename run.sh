@@ -2,6 +2,7 @@
 
 name=crud_api
 
+git pull
 docker stop $name || true
 docker rm $name || true
 docker build -t $name .
