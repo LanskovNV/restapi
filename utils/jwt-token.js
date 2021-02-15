@@ -22,7 +22,7 @@ function decode(token, type) {
 }
 
 function generate(payload, type) {
-    return jwt.sign(payload, secrets[type], { expiresIn: '5m' });
+    return jwt.sign(payload, secrets[type], { expiresIn: '1h' });
 }
 
 module.exports = {
