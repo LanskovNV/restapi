@@ -43,7 +43,7 @@ function update(req, res) {
 }
 
 function del(req, res) {
-    const id = Number.parseInt(req.params.id, 10);
+    const id = req.params.id;
 
     Service.deleteItem({ id })
         .then((data) => res.status(StatusCodes.OK).send(data))
