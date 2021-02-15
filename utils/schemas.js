@@ -53,7 +53,7 @@ const employeeGetById = () => {
             id: {
                 description: 'employee unique id',
                 type: 'string',
-                pattern: '(?<=\\s|^)\\d+(?=\\s|$)',
+                // pattern: '(?<=\\s|^)\\d+(?=\\s|$)',
             },
         },
         additionalProperties: false,
