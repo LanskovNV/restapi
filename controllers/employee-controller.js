@@ -9,7 +9,7 @@ const Service = specifyService(
 );
 
 function getById(req, res) {
-    const id = Number.parseInt(req.params.id, 10);
+    const id = req.params.id;
 
     Service.getItem({ id }, employeeMsg.NOT_FOUND(id))
         .then((data) => res.status(StatusCodes.OK).send(data))
@@ -36,7 +36,7 @@ function create(req, res) {
 }
 
 function update(req, res) {
-    const id = Number.parseInt(req.params.id, 10);
+    const id = req.params.id;
     Service.updateItem({ id }, req.body)
         .then((data) => res.status(StatusCodes.OK).send(data))
         .catch((error) => res.json(error));

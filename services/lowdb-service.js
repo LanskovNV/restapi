@@ -39,15 +39,7 @@ async function updateItem(entity, id, data) {
         throw Boom.notFound(serviceMsg.NOT_FOUND);
     }
 
-    console.log();
-    return item
-        .find(id)
-        .assign(
-            Object.keys(id)[0] === 'id'
-                ? { id: id.id.toString(), ...data }
-                : data,
-        )
-        .write();
+    return item.find(id).assign(data).write();
 }
 
 async function addItem(entity, data) {
