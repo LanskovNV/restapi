@@ -16,6 +16,10 @@
     {
       "url": "http://localhost:5000/api/v1",
       "description": "default local server"
+    },
+    {
+      "url": "https://crud.leins275.xyz/api/v1",
+      "description": "develop server"
     }
   ],
   "tags": [
