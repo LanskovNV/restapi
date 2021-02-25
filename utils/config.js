@@ -14,7 +14,7 @@ app.use(passport.initialize(undefined));
 app.use('/api/v1', routes);
 
 module.exports = {
-    host: '0.0.0.0',
-    port: 5000,
+    host: process.env.HOST,
+    port: process.env.PORT,
     app,
 };

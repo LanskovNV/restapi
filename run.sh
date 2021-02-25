@@ -2,6 +2,8 @@
 
 name=crud_api
 
+echo "HOST=0.0.0.0 PORT=5000 DB_URL=mongodb://localhost:27017/employee-db" | tr " " "\n" > .env
+
 git pull
 docker stop $name || true
 docker rm $name || true
