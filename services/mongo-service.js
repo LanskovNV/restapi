@@ -16,7 +16,11 @@ function connectDb() {
 }
 
 async function getCollection(entity, filters, pageNum) {
-    const scheme = dbSchemas[entity];
+    const Model = mongoose.model(entity, dbSchemas[entity]);
+
+    const data = Model.find(filters).sort({ salary: -1 });
+
+    console.log(data);
 }
 async function getItem(entity, id, errorMsg) {}
 async function updateItem(entity, id, data) {}
