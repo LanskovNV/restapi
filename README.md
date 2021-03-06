@@ -2,6 +2,17 @@
 
 ## Simple CRUD rest api with jwt bearer authorisation
 
+# Environment
+
+specify .env file with:
+
+```dotenv
+HOST=...
+PORT=...
+DB_URL=...
+PAGE_SIZE=...
+```
+
 # Run
 
 To run the project, open terminal at location you want, and do the following:
@@ -12,7 +23,7 @@ npm install
 npm run start
 ```
 
-## Deploy
+# Deploy
 
 To deploy with docker, do the following:
 

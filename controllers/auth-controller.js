@@ -2,34 +2,27 @@ const Boom = require('boom');
 const StatusCodes = require('http-status-codes');
 const { authMsg } = require('../utils/messages');
 const { generate, decode } = require('../utils/jwt-token');
-const { entities, authTokenTypes } = require('../utils/constants');
-const { specifyService } = require('../utils/utils');
-const UsersService = specifyService(
-    require('../services/lowdb-service'),
-    entities.users,
-);
+const { MongoService } = require('../services/mongo-service');
+const { entities } = require('../utils/constants');
+
+const UserService = new MongoService(entities.users);
 
 function get(req, res) {
     const payload = { ...req.query, time: Date.now() };
 
-    UsersService.getItem({ username: payload.username }, authMsg.INVALID_TOKEN)
+    UserService.getItemByField({ username: payload.username })
         .then((user) => {
-            const { username, password } = decode(
-                user.token,
-                authTokenTypes.auth,
-            );
+            const { username, password } = decode(user.token);
             if (
                 username === payload.username &&
                 password === payload.password
             ) {
-                const token = generate(payload, authTokenTypes.auth);
+                const token = generate(payload);
                 const cb = () => res.status(StatusCodes.OK).send({ token });
                 const errCb = (error) => res.json(error);
 
-                UsersService.updateItem(
-                    { username: payload.username },
-                    { token },
-                )
+                // eslint-disable-next-line no-underscore-dangle
+                UserService.updateItem(user._id, { token })
                     .then(cb)
                     .catch(errCb);
             } else {
@@ -45,7 +38,7 @@ function create(req, res) {
         password: req.body.password,
         time: Date.now(),
     };
-    const token = generate(payload, authTokenTypes.auth);
+    const token = generate(payload);
     const newUser = {
         ...req.body,
         token,
@@ -54,7 +47,7 @@ function create(req, res) {
 
     const cb = () => res.status(StatusCodes.OK).send(newUser);
     const errCb = (error) => res.json(Boom.internal(error));
-    UsersService.addItem(newUser).then(cb).catch(errCb);
+    UserService.addItem(newUser).then(cb).catch(errCb);
 }
 
 module.exports = {

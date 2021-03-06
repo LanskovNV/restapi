@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const { Strategy } = require('passport-http-bearer');
 const routes = require('../routes');
-const { verify } = require('../utils/jwt-token');
+const { verify } = require('./jwt-token');
 
 passport.use('bearerAuth', new Strategy(verify));
 
@@ -14,7 +14,7 @@ app.use(passport.initialize(undefined));
 app.use('/api/v1', routes);
 
 module.exports = {
-    host: '0.0.0.0',
-    port: 5000,
+    host: process.env.HOST,
+    port: process.env.PORT,
     app,
 };
