@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const bluebird = require('bluebird');
-const dbSchemas = require('../utils/db-schemas');
+const Employee = require('../models/employee');
+const User = require('../models/user');
+const { entities } = require('../utils/constants');
+
+const models = {
+    [entities.users]: User,
+    [entities.employees]: Employee,
+};
 
 function connectDb() {
     mongoose.Promise = bluebird;
@@ -15,23 +22,45 @@ function connectDb() {
     return mongoose.connection;
 }
 
-async function getCollection(entity, filters, pageNum) {
-    const Model = mongoose.model(entity, dbSchemas[entity]);
+class MongoService {
+    constructor(entity) {
+        this.Model = models[entity];
+    }
 
-    const data = Model.find(filters).sort({ salary: -1 });
+    async getCollection(
+        filters,
+        pageNum,
+        pageSize = parseInt(process.env.PAGE_SIZE, 10),
+    ) {
+        return this.Model.find(filters)
+            .skip((pageNum - 1) * pageSize)
+            .limit(pageSize)
+            .sort({ salary: -1 });
+    }
 
-    console.log(data);
+    async addItem(data) {
+        const model = new this.Model(data);
+        return model.save();
+    }
+
+    async getItem(id) {
+        return this.Model.findById(id);
+    }
+
+    async updateItem(id, data) {
+        return this.Model.findByIdAndUpdate(id, data);
+    }
+
+    async deleteItem(id) {
+        return this.Model.findByIdAndDelete(id);
+    }
+
+    async getItemByField(searchFields) {
+        return this.Model.findOne(searchFields);
+    }
 }
-async function getItem(entity, id, errorMsg) {}
-async function updateItem(entity, id, data) {}
-async function addItem(entity, data) {}
-async function deleteItem(entity, id) {}
 
 module.exports = {
     connectDb,
-    getCollection,
-    getItem,
-    updateItem,
-    addItem,
-    deleteItem,
+    MongoService,
 };
