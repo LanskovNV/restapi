@@ -29,7 +29,7 @@ function create(req, res) {
 
 function update(req, res) {
     const { id } = req.params;
-    EmployeeService.updateItem({ id }, req.body)
+    EmployeeService.updateItem(id, req.body)
         .then((data) => res.status(StatusCodes.OK).send(data))
         .catch((error) => res.json(error));
 }
@@ -37,7 +37,7 @@ function update(req, res) {
 function del(req, res) {
     const { id } = req.params;
 
-    EmployeeService.deleteItem({ id })
+    EmployeeService.deleteItem(id)
         .then((data) => res.status(StatusCodes.OK).send(data))
         .catch((error) => res.json(error));
 }
