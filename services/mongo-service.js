@@ -48,11 +48,11 @@ class MongoService {
     }
 
     async updateItem(id, data) {
-        return this.Model.findByIdAndUpdate(id, data);
+        return this.Model.findByIdAndUpdate(id, data).save();
     }
 
     async deleteItem(id) {
-        return this.Model.findByIdAndDelete(id);
+        return this.Model.findByIdAndDelete(id).save();
     }
 
     async getItemByField(searchFields) {
