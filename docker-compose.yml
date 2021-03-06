@@ -5,6 +5,8 @@ services:
     image: mongo
     restart: always
     container_name: api_db
+    volumes:
+    - ./data:/data/db
 
   api:
     build: ./
