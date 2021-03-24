@@ -6,7 +6,7 @@ services:
     restart: always
     container_name: api_db
     volumes:
-    - ./data:/data/db
+    - /home/leins275/volumes/restapi:/data/db
 
   api:
     build: ./
