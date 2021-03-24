@@ -38,3 +38,4 @@ To deploy with docker, do the following:
 
 Api documentation available [here](https://crud.leins275.xyz/api/v1/swagger/)
 
+a
