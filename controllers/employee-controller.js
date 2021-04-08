@@ -14,13 +14,9 @@ function getById(req, res) {
 
 function get(req, res) {
     const filters = { name: req.query.name, surname: req.query.surname };
-    const { order } = req.query.order;
+    // const { order } = req.query.order;
 
-    EmployeeService.getCollection(
-        filters,
-        req.query.page_num || 1,
-        order ? Number.parseInt(order, 10) : -1,
-    )
+    EmployeeService.getCollection(filters, req.query.page_num || 1)
         .then((data) => res.status(StatusCodes.OK).send(data))
         .catch((error) => res.json(error));
 }
