@@ -13,10 +13,7 @@ function getById(req, res) {
 }
 
 function get(req, res) {
-    const filters = {
-        name: req.query.name || undefined,
-        surname: req.query.surname || undefined,
-    };
+    const filters = { ...req.query };
     // const { order } = req.query.order;
 
     EmployeeService.getCollection(filters, req.query.page_num || 1)
