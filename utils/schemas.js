@@ -80,6 +80,10 @@ const employeeGet = () => {
                 minLength: 2,
                 maxLength: 40,
             },
+            order: {
+                description: 'salary sort order',
+                type: 'string',
+            },
             page_num: {
                 description: 'number of page to return (25 per page)',
                 type: 'string',
