@@ -15,9 +15,10 @@ function getById(req, res) {
 function get(req, res) {
     const filters = { ...req.query };
     delete filters.page_num;
-    // const { order } = req.query.order;
+    delete filters.order;
+    const order = req.query.order ? Number.parseInt(req.query.order, 10) : -1;
 
-    EmployeeService.getCollection(filters, req.query.page_num || 1)
+    EmployeeService.getCollection(filters, req.query.page_num || 1, order)
         .then((data) => res.status(StatusCodes.OK).send(data))
         .catch((error) => res.json(error));
 }
