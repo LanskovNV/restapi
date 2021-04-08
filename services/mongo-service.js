@@ -30,12 +30,13 @@ class MongoService {
     async getCollection(
         filters,
         pageNum,
+        order = -1,
         pageSize = parseInt(process.env.PAGE_SIZE, 10),
     ) {
         return this.Model.find(filters)
             .skip((pageNum - 1) * pageSize)
             .limit(pageSize)
-            .sort({ salary: -1 });
+            .sort({ salary: order });
     }
 
     async addItem(data) {
