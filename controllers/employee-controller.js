@@ -14,6 +14,7 @@ function getById(req, res) {
 
 function get(req, res) {
     const filters = { ...req.query };
+    delete filters.page_num;
     // const { order } = req.query.order;
 
     EmployeeService.getCollection(filters, req.query.page_num || 1)
