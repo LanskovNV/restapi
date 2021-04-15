@@ -24,6 +24,7 @@ function connectDb() {
 
 class MongoService {
     constructor(entity) {
+        this.entity = entity;
         this.Model = models[entity];
     }
 
@@ -33,10 +34,14 @@ class MongoService {
         order = -1,
         pageSize = parseInt(process.env.PAGE_SIZE, 10),
     ) {
-        return this.Model.find(filters)
+        const data = await this.Model.find(filters)
             .skip((pageNum - 1) * pageSize)
             .limit(pageSize)
-            .sort({ salary: order });
+            .sort({ salary: order })
+            .exec();
+
+        const totalCount = await this.Model.count(filters).exec();
+        return { [this.entity]: data, totalCount };
     }
 
     async addItem(data) {
