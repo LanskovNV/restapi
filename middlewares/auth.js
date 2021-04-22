@@ -12,7 +12,7 @@ function getAuthMiddleware(strategyName) {
             }
 
             if (!user) {
-                return res.json(Boom.unauthorized(authMsg.INVALID_TOKEN));
+                return next(Boom.unauthorized(authMsg.INVALID_TOKEN));
             }
 
             next();
