@@ -21,7 +21,7 @@ async function get(req, res, next) {
             const data = await UserService.updateItem(user._id, {
                 token,
             });
-            res.status(StatusCodes.OK).send(data);
+            res.status(StatusCodes.OK).send({ ...data, token });
         } else {
             throw Boom.badRequest('Incorrect login or password');
         }
