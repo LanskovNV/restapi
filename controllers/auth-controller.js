@@ -7,32 +7,30 @@ const { entities } = require('../utils/constants');
 
 const UserService = new MongoService(entities.users);
 
-function get(req, res) {
+async function get(req, res, next) {
     const payload = { ...req.query, time: Date.now() };
 
-    UserService.getItemByField({ username: payload.username })
-        .then((user) => {
-            const { username, password } = decode(user.token);
-            if (
-                username === payload.username &&
-                password === payload.password
-            ) {
-                const token = generate(payload);
-                const cb = () => res.status(StatusCodes.OK).send({ token });
-                const errCb = (error) => res.json(error);
-
-                // eslint-disable-next-line no-underscore-dangle
-                UserService.updateItem(user._id, { token })
-                    .then(cb)
-                    .catch(errCb);
-            } else {
-                res.json(Boom.badData(authMsg.BAD_CREDITS));
-            }
-        })
-        .catch((error) => res.json(error));
+    try {
+        const user = await UserService.getItemByField({
+            username: payload.username,
+        });
+        const { username, password } = decode(user.token);
+        if (username === payload.username && password === payload.password) {
+            const token = generate(payload);
+            // eslint-disable-next-line no-underscore-dangle
+            const data = await UserService.updateItem(user._id, {
+                token,
+            });
+            res.status(StatusCodes.OK).send(data);
+        } else {
+            throw Boom.badRequest('Incorrect login or password');
+        }
+    } catch (err) {
+        next(err);
+    }
 }
 
-function create(req, res) {
+function create(req, res, next) {
     const payload = {
         username: req.body.username,
         password: req.body.password,

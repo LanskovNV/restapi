@@ -1,3 +1,4 @@
+const Boom = require('boom');
 const mongoose = require('mongoose');
 const bluebird = require('bluebird');
 const Employee = require('../models/employee');
@@ -62,7 +63,16 @@ class MongoService {
     }
 
     async getItemByField(searchFields) {
-        return this.Model.findOne(searchFields);
+        let doc;
+        try {
+            doc = await this.Model.findOne(searchFields).exec();
+        } catch (error) {
+            throw Boom.internal('db error');
+        }
+        if (doc === null) {
+            throw Boom.notFound('no items found');
+        }
+        return doc;
     }
 }
 
