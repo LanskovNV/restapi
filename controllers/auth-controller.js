@@ -22,7 +22,7 @@ async function get(req, res, next) {
             });
             res.status(StatusCodes.OK).send({ ...data, token });
         } else {
-            throw Boom.badRequest(authMsg.BAD_CREDITS);
+            throw Boom.badRequest(authMsg.NOT_FOUND);
         }
     } catch (err) {
         next(err);

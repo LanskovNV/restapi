@@ -5,9 +5,8 @@ const employeeMsg = {
 };
 
 const authMsg = {
-    NOT_FOUND: `User not found`,
+    NOT_FOUND: 'Login or password is incorrect, please try again',
     INVALID_TOKEN: 'Token is invalid, get new one',
-    BAD_CREDITS: 'Login or password is incorrect, please try again',
 };
 
 const routerMsg = {
