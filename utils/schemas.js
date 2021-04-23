@@ -68,17 +68,9 @@ const employeeGet = () => {
         description: 'query params',
         type: 'object',
         properties: {
-            name: {
-                description: 'employee name',
+            filter: {
+                description: 'neme or surname search',
                 type: 'string',
-                minLength: 2,
-                maxLength: 40,
-            },
-            surname: {
-                description: 'employee surname',
-                type: 'string',
-                minLength: 2,
-                maxLength: 40,
             },
             order: {
                 description: 'salary sort order',

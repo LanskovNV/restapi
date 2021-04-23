@@ -20,13 +20,15 @@ async function getById(req, res, next) {
 }
 
 async function get(req, res, next) {
-    const filters = { ...req.query };
-    delete filters.page_num;
-    delete filters.order;
+    const { filter } = req.query;
     const order = req.query.order ? Number.parseInt(req.query.order, 10) : -1;
 
     const request = async () =>
-        EmployeeService.getCollection(filters, req.query.page_num || 1, order);
+        EmployeeService.getCollection(
+            filter || '',
+            req.query.page_num || 1,
+            order,
+        );
     return handleRequest(request, res, next);
 }
 

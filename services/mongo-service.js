@@ -50,19 +50,25 @@ class MongoService {
     }
 
     async getCollection(
-        filters,
+        filter,
         pageNum,
         order = -1,
         pageSize = parseInt(process.env.PAGE_SIZE, 10),
     ) {
+        const search = {
+            $or: [
+                { name: { $regex: filter, $options: 'i' } },
+                { surname: { $regex: filter, $options: 'i' } },
+            ],
+        };
         try {
-            const data = await this.Model.find(filters)
+            const data = await this.Model.find(search)
                 .skip((pageNum - 1) * pageSize)
                 .limit(pageSize)
                 .sort({ salary: order })
                 .exec();
 
-            const totalCount = await this.Model.countDocuments(filters).exec();
+            const totalCount = await this.Model.countDocuments(search).exec();
             return { [this.entity]: data, totalCount };
         } catch (error) {
             throw Boom.internal('db error');
