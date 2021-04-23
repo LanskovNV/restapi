@@ -4,44 +4,47 @@ const { MongoService } = require('../services/mongo-service');
 
 const EmployeeService = new MongoService(entities.employees);
 
-function getById(req, res) {
-    const { id } = req.params;
-
-    EmployeeService.getItem(id)
-        .then((data) => res.status(StatusCodes.OK).send(data))
-        .catch((error) => res.json(error));
+async function handleRequest(request, res, next) {
+    try {
+        const data = await request();
+        res.status(StatusCodes.OK).send(data);
+    } catch (error) {
+        next(error);
+    }
 }
 
-function get(req, res) {
+async function getById(req, res, next) {
+    const { id } = req.params;
+    const request = async () => EmployeeService.getItem(id);
+    return handleRequest(request, res, next);
+}
+
+async function get(req, res, next) {
     const filters = { ...req.query };
     delete filters.page_num;
     delete filters.order;
     const order = req.query.order ? Number.parseInt(req.query.order, 10) : -1;
 
-    EmployeeService.getCollection(filters, req.query.page_num || 1, order)
-        .then((data) => res.status(StatusCodes.OK).send(data))
-        .catch((error) => res.json(error));
+    const request = async () =>
+        EmployeeService.getCollection(filters, req.query.page_num || 1, order);
+    return handleRequest(request, res, next);
 }
 
-function create(req, res) {
-    EmployeeService.addItem(req.body)
-        .then((data) => res.status(StatusCodes.OK).send(data))
-        .catch((error) => res.json(error));
+async function create(req, res, next) {
+    const request = async () => EmployeeService.addItem(req.body);
+    return handleRequest(request, res, next);
 }
 
-function update(req, res) {
+async function update(req, res, next) {
     const { id } = req.params;
-    EmployeeService.updateItem(id, req.body)
-        .then((data) => res.status(StatusCodes.OK).send(data))
-        .catch((error) => res.json(error));
+    const request = async () => EmployeeService.updateItem(id, req.body);
+    return handleRequest(request, res, next);
 }
 
-function del(req, res) {
+async function del(req, res, next) {
     const { id } = req.params;
-
-    EmployeeService.deleteItem(id)
-        .then((data) => res.status(StatusCodes.OK).send(data))
-        .catch((error) => res.json(error));
+    const request = async () => EmployeeService.deleteItem(id);
+    return handleRequest(request, res, next);
 }
 
 module.exports = {

@@ -17,20 +17,19 @@ async function get(req, res, next) {
         const { username, password } = decode(user.token);
         if (username === payload.username && password === payload.password) {
             const token = generate(payload);
-            // eslint-disable-next-line no-underscore-dangle
             const data = await UserService.updateItem(user._id, {
                 token,
             });
             res.status(StatusCodes.OK).send({ ...data, token });
         } else {
-            throw Boom.badRequest('Incorrect login or password');
+            throw Boom.badRequest(authMsg.BAD_CREDITS);
         }
     } catch (err) {
         next(err);
     }
 }
 
-function create(req, res, next) {
+async function create(req, res, next) {
     const payload = {
         username: req.body.username,
         password: req.body.password,
@@ -43,9 +42,12 @@ function create(req, res, next) {
     };
     delete newUser.password;
 
-    const cb = () => res.status(StatusCodes.OK).send(newUser);
-    const errCb = (error) => res.json(Boom.internal(error));
-    UserService.addItem(newUser).then(cb).catch(errCb);
+    try {
+        const data = await UserService.addItem(newUser);
+        res.status(StatusCodes.OK).send(data);
+    } catch (error) {
+        next(error);
+    }
 }
 
 module.exports = {
