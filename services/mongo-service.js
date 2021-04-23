@@ -29,43 +29,10 @@ class MongoService {
         this.Model = models[entity];
     }
 
-    async getCollection(
-        filters,
-        pageNum,
-        order = -1,
-        pageSize = parseInt(process.env.PAGE_SIZE, 10),
-    ) {
-        const data = await this.Model.find(filters)
-            .skip((pageNum - 1) * pageSize)
-            .limit(pageSize)
-            .sort({ salary: order })
-            .exec();
-
-        const totalCount = await this.Model.count(filters).exec();
-        return { [this.entity]: data, totalCount };
-    }
-
-    async addItem(data) {
-        const model = new this.Model(data);
-        return model.save();
-    }
-
-    async getItem(id) {
-        return this.Model.findById(id);
-    }
-
-    async updateItem(id, data) {
-        return this.Model.findByIdAndUpdate(id, data);
-    }
-
-    async deleteItem(id) {
-        return this.Model.findByIdAndDelete(id);
-    }
-
-    async getItemByField(searchFields) {
+    async _handleQuery(q) {
         let doc;
         try {
-            doc = await this.Model.findOne(searchFields).exec();
+            doc = await q.exec();
         } catch (error) {
             throw Boom.internal('db error');
         }
@@ -73,6 +40,60 @@ class MongoService {
             throw Boom.notFound('no items found');
         }
         return doc;
+    }
+
+    async getCollection(
+        filters,
+        pageNum,
+        order = -1,
+        pageSize = parseInt(process.env.PAGE_SIZE, 10),
+    ) {
+        try {
+            const data = await this.Model.find(filters)
+                .skip((pageNum - 1) * pageSize)
+                .limit(pageSize)
+                .sort({ salary: order })
+                .exec();
+
+            const totalCount = await this.Model.countDocuments(filters).exec();
+            return { [this.entity]: data, totalCount };
+        } catch (error) {
+            throw Boom.internal('db error');
+        }
+    }
+
+    async addItem(data) {
+        let doc;
+        try {
+            const model = new this.Model(data);
+            doc = await model.save();
+        } catch (error) {
+            throw Boom.internal('db error');
+        }
+        if (doc === null) {
+            throw Boom.notFound('cannot save item');
+        }
+        return doc;
+    }
+
+    async getItem(id) {
+        const query = this.Model.findById(id);
+        return this._handleQuery(query);
+    }
+
+    async updateItem(id, data) {
+        const query = this.Model.findByIdAndUpdate(id, data);
+        return this._handleQuery(query);
+    }
+
+    async deleteItem(id) {
+        const query = this.Model.findByIdAndDelete(id);
+        return this._handleQuery(query);
+    }
+
+    async getItemByField(searchFields) {
+        const query = this.Model.findOne(searchFields);
+        return this._handleQuery(query);
     }
 }
 
