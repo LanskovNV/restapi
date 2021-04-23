@@ -3,11 +3,17 @@ const mongoose = require('mongoose');
 const bluebird = require('bluebird');
 const Employee = require('../models/employee');
 const User = require('../models/user');
+const { employeeMsg, authMsg } = require('../utils/messages');
 const { entities } = require('../utils/constants');
 
 const models = {
     [entities.users]: User,
     [entities.employees]: Employee,
+};
+
+const messages = {
+    [entities.users]: authMsg,
+    [entities.employees]: employeeMsg,
 };
 
 function connectDb() {
@@ -27,6 +33,7 @@ class MongoService {
     constructor(entity) {
         this.entity = entity;
         this.Model = models[entity];
+        this.msg = messages[entity];
     }
 
     async _handleQuery(q) {
@@ -37,7 +44,7 @@ class MongoService {
             throw Boom.internal('db error');
         }
         if (doc === null) {
-            throw Boom.notFound('no items found');
+            throw Boom.notFound(this.msg.NOT_FOUND);
         }
         return doc;
     }
