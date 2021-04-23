@@ -20,12 +20,11 @@ async function get(req, res, next) {
             const data = await UserService.updateItem(user._id, {
                 token,
             });
-            res.status(StatusCodes.OK).send({ ...data, token });
-        } else {
-            throw Boom.badRequest(authMsg.NOT_FOUND);
+            return res.status(StatusCodes.OK).send({ ...data._doc, token });
         }
+        throw Boom.badRequest(authMsg.NOT_FOUND);
     } catch (err) {
-        next(err);
+        return next(err);
     }
 }
 
